@@ -5,7 +5,8 @@
   
   
   user: root
-  
+  su: yes
+  su_user: root
   roles: 
     - sshd
 

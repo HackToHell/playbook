@@ -1,0 +1,12 @@
+---
+- name: Install nginx
+  apt: name=nginx state=present
+
+
+- name: Copy nginx configuration for wordpress
+  template: src=flask dest=/etc/nginx/sites-available/flask
+  
+- name: link nginx config file
+  file: src=/etc/nginx/sites-available/flask dest=/etc/nginx/sites-enabled/flask state=link
+  notify:
+      - restart nginx     

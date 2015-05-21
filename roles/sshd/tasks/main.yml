@@ -12,6 +12,7 @@
 
 - name: "Copy sshd_config"
   template: src=sshd_config dest=/etc/ssh
-  notify: restart sshd
+  notify: 
+       -restart sshd
 
 

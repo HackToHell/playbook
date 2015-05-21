@@ -1,0 +1,37 @@
+
+- name: install the needed packages
+  apt: pkg={{item}} state=installed
+  with_items:
+     - python-dev
+     - python-pip
+- name: Install Virtual Environemnt through pip
+  pip: name=virtualenv state=present
+
+- name: Create new group flask
+  group: name=flask state=present
+
+- name: Create new user flask
+  user: name=flask state=present group=flask
+
+- name: Create the place where flask will be
+  file: path=/var/flask/flaskapp state=directory owner=flask group=flask
+
+- name: Create virtual env and install packages
+  easy_install: name={{item}} virtualenv=/var/flask/flaskapp/flaskapp
+  with_items:
+      - flask
+      - uwsgi
+- name: push uwsgi config
+  template: src=%{item.0} dest={item.1}
+  with_items:
+      - [ 'cmi.ini', '/var/flask/flaskapp/config/cm.ini' ]
+      - { 'client_portal.ini','/var/flask/flaskapp/config/client_portal.ini']
+      - [ 'start-all.sh','/var/flask/flaskapp/start-all.sh']
+- name: Clone repo cmi
+  git: repo=git@bitbucket.org:dataculture/cmi.git dest=/var/flask/flaskapp/cmi update=yes 
+
+- name: Clone rep client_portal
+  git: repo=git@bitbucket.org:dataculture/client-portal.git dest=/var/flask/flaskapp/client_portal update=yes
+
+- name: Start uCwi
+  shell: start-all.sh chdor/var/flask/flaskapp

@@ -3,10 +3,11 @@
   file: path=/etc/ssh/keys state=directory 
   sudo: yes
 - name: "Copy ssh keys from template"
-  template: src=templates/root_authorized_keys dest=/etc/ssh/keys/root_authorized_keys mode=0600
-  template: src=templates/flask_authorized_keys dest=/etc/ssh/keys/flask_authorized_keys mode=0600
+  template: src=root_authorized_keys dest=/etc/ssh/keys/root_authorized_keys mode=0600
+  template: src=flask_authorized_keys dest=/etc/ssh/keys/flask_authorized_keys mode=0600
   sudo: yes 
 
 - name: "Copy sshd_config"
-  template: src=templates/sshd_config dest=/etc/ssh
+  template: src=sshd_config dest=/etc/ssh
+
 

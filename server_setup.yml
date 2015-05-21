@@ -2,8 +2,10 @@
 - 
   hosts: all
   name: "Setup server base"
-  remote_user: root
+  
+  
+  user: root
+  
   roles: 
     - sshd
-    - nginx
-    - uac
+

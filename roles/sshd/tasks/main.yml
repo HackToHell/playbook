@@ -1,0 +1,14 @@
+---
+- name: "Create new location for ssh keys"
+  file : path=/etc/ssh/keys state=directory 
+
+-name: "Copy ssh keys from template"
+ template: src=${item.src} dest=${item.dest} mode=0600
+   with_items:
+      - { src: 'templates/root_authorized_keys', b: '/etc/ssh/keys/root_authorized_keys' }
+      - { src: 'templates/flask_authorized_keys', b: '/etc/ssh/keys/flask_authorized_keys' }
+
+-name: "Copy sshd_config"
+ template: src=templates/sshd_config dest=/etc/ssh
+  
+	
